@@ -13,13 +13,17 @@ const checkId = (req, res, next) => {
 }
 
 const checkPayload = (req, res, next) => {
-  if (!req.body.name ||
-    !req.body.description ||
-    typeof req.body.name !==
+  const {name, description, completed} = req.body
+  if (!name ||
+    !description ||
+    completed === undefined ||
+    typeof name !==
     'string' ||
-    typeof req.body.description !==
-    'string') {
-    next({message: 'name and description are required', status: 400})
+    typeof description !==
+    'string' ||
+    typeof completed !==
+    'boolean') {
+    next({message: 'name, description and completed are required', status: 400})
   }
   next()
 }

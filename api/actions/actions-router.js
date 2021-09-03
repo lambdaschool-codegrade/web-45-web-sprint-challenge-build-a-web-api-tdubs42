@@ -24,6 +24,12 @@ router.put('/:id', checkPayload, checkProjectId, checkId, (req, res, next) => {
     .catch(next)
 })
 
+router.delete('/:id', checkId, (req, res, next) => {
+  Action.remove(req.params.id)
+    .then(removed => res.json(removed))
+    .catch(next)
+})
+
 /* eslint-disable */
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({

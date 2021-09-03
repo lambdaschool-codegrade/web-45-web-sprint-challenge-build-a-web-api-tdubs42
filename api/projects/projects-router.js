@@ -12,6 +12,17 @@ router.get('/:id', checkId, (req, res, next) => {
   res.json(req.project)
 })
 
+router.get('/:id/actions', checkId, (req, res, next) => {
+  Project.getProjectActions(req.params.id)
+    .then(actions => {
+      if (!actions) {
+        res.json([])
+      }
+      res.json(actions)
+    })
+    .catch(next)
+})
+
 router.post('/', checkPayload, (req, res, next) => {
   Project.insert(req.body)
     .then(newProject => res.status(201).json(newProject))
@@ -19,8 +30,14 @@ router.post('/', checkPayload, (req, res, next) => {
 })
 
 router.put('/:id', checkPayload, checkId, (req, res, next) => {
-  Project.update(req.params.id, req.body)
+  Project.update(req.params.id, req.project)
     .then(updated => res.json(updated))
+    .catch(next)
+})
+
+router.delete('/:id', checkId, (req, res, next) => {
+  Project.remove(req.params.id)
+    .then(removed => res.json(removed))
     .catch(next)
 })
 

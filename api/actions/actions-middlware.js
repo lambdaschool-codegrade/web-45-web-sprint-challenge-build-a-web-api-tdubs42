@@ -14,13 +14,14 @@ const checkId = (req, res, next) => {
 }
 
 const checkPayload = (req, res, next) => {
-  if (!req.body.description ||
-    !req.body.notes ||
-    req.body.description.length >
+  const {description, notes} = req.body
+  if (!description ||
+    !notes ||
+    description.length >
     128 ||
-    typeof req.body.description !==
+    typeof description !==
     'string' ||
-    typeof req.body.notes !==
+    typeof notes !==
     'string') {
     next({message: 'description required under 128 characters and notes required', status: 400})
   }
